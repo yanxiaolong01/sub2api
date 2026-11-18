@@ -1,0 +1,58 @@
+name: Build image (fork)
+
+# 在 GitHub Actions 上构建 linux/amd64 镜像并推送到 GHCR。
+# 服务器侧只 pull，不再承担前端/Go 编译，避免 1 核 1G 机器被编译拖死。
+#
+# 用法：
+#   1. 把分支推到自己的 fork / 自己的仓库
+#   2. Actions -> "Build image (fork)" -> Run workflow（或直接 push 触发）
+#   3. 服务器：docker login ghcr.io -u <owner>，然后 pull 镜像
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - fix/antigravity-compat
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare image name
+        id: image
+        run: |
+          echo "name=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+          echo "sha=sha-${GITHUB_SHA:0:7}" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ${{ steps.image.outputs.name }}:compat-latest
+            ${{ steps.image.outputs.name }}:${{ steps.image.outputs.sha }}
+          build-args: |
+            VERSION=自定义
+            COMMIT=${{ github.sha }}
+          cache-from: type=gha,scope=sub2api-fork
+          cache-to: type=gha,mode=max,scope=sub2api-fork

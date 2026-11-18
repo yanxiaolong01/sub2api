@@ -1,0 +1,79 @@
+{
+  "rules": [
+    {
+      "name": "rfc2119-keywords",
+      "pattern": "(?i)RFC[-\\s]*2119\\s+keywords",
+      "replacement": "RFC-2119 keywords"
+    },
+    {
+      "name": "rfc2119-convention-line",
+      "pattern": "(?i)(RFC[-\\s]*2119)(\\s*:\\s*(?:MUST|REQUIRED|SHOULD|RECOMMENDED|MAY|OPTIONAL))",
+      "replacement": "RFC-2119$2"
+    },
+    {
+      "name": "hermes-identity-sentence",
+      "pattern": "(?i)You are Hermes Agent,?\\s*an intelligent AI assistant created by Nous Research\\.?",
+      "replacement": "You are Hermes, an AI assistant."
+    },
+    {
+      "name": "hermes-agent-token",
+      "pattern": "(?i)\\bHermes Agent\\b",
+      "replacement": "Hermes"
+    },
+    {
+      "name": "nous-research-token",
+      "pattern": "(?i)\\bNous Research\\b",
+      "replacement": "the Hermes project"
+    },
+    {
+      "name": "pi-harness-identity",
+      "pattern": "(?i)You are a coding assistant running inside pi,\\s*a coding agent harness\\.",
+      "replacement": "You are an AI agent."
+    },
+    {
+      "name": "pi-harness-token",
+      "pattern": "(?i)running inside pi,?\\s*a coding agent harness",
+      "replacement": "running inside a coding harness"
+    },
+    {
+      "name": "claude-code-dual-use",
+      "pattern": "(?i)Dual-use security tools \\([^)]*\\) require clear authorization context:[^.\\n]*\\.",
+      "replacement": "Tools with both offensive and defensive uses need a clear, authorized purpose."
+    },
+    {
+      "name": "dsh-harness-identity",
+      "pattern": "(?i)You are an AI agent powered by DeepSeek Harness\\.",
+      "replacement": "You are an AI agent powered by an agent runtime."
+    },
+    {
+      "name": "dsh-harness-token",
+      "pattern": "(?i)\\bDeepSeek Harness\\b",
+      "replacement": "agent runtime"
+    },
+    {
+      "name": "browser-dom-context",
+      "pattern": "(?i)The browser provides no implicit DOM, route, or screenshot context\\.",
+      "replacement": "The browser provides no implicit DOM context."
+    },
+    {
+      "name": "zcode-identity-sentence",
+      "pattern": "(?i)You are ZCode,?\\s*an?\\s+interactive agent that helps (?:users|developers) with software engineering tasks\\.",
+      "replacement": "You are an AI agent that helps users with software engineering tasks."
+    },
+    {
+      "name": "zcode-safety-guidelines",
+      "pattern": "(?i)You must always follow safety guidelines:\\s*refuse to assist with destructive techniques[^.\\n]*\\.",
+      "replacement": "Always follow the applicable safety guidelines."
+    },
+    {
+      "name": "zcode-dual-use",
+      "pattern": "(?i)Dual-use security tools require clear authorization context\\.",
+      "replacement": "Tools with both offensive and defensive uses need a clear, authorized purpose."
+    },
+    {
+      "name": "zcode-brand-token",
+      "pattern": "(?i)\\bZCode\\b",
+      "replacement": "the agent"
+    }
+  ]
+}
